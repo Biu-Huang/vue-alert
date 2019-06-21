@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/vue2.css">
+    <style>
+      html, body {
+          background: linear-gradient(-30deg, #37ecba 0%, #72afd3 70%);
+          height: 100%;
+      }
+    .reminder, .modal {
+        width: 80%;
+        padding: 20px 10px;
+        background-color: #5DD39E;
+        border: none;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        text-shadow: 2px 2px 2px #56b78b;
+        border-radius: 10px;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    p {
+        text-align: center;
+        margin: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px dashed #fff;
+    }
+
+    .slot {
+        padding-top: 5px;
+    }
+
+    .modal button {
+        width: 100px;
+        height: 30px;
+        background-color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 5px;
+    }
+
+    .modal button:first-child {
+        float: left;
+    }
+
+    .modal button:last-child {
+        float: right;
+    }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <button class="reminder" @click="toggleClick()" v-if="isHide" @click="isHide = !isHide">你就不想点一下看看嘛</button>
+    <query query-title="好开心好开心\(^o^)/~" query-confirm="(╯3╰)" query-cancel="X﹏X" v-if="!isHide" @y="confirm()" @n="cancel()">
+        Dear handsome, cute, humor, wise, attractive, manly, fashionable, drop dead gorgeous biu biu biu biu biu biu ~~~
+    </query>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('query', {
+        props: {
+            queryTitle: {
+                type: String,
+                default: '我以为你不会点我呢/(ㄒoㄒ)/~~',
+            },
+            queryConfirm: {
+                type: String,
+                default: 'Yes'
+            },
+            queryCancel: {
+                type: String,
+                default: 'No'
+            }
+        },
+        template: `<div class="modal">
+            <p>{{ queryTitle }}</p>
+            <div class="slot"><slot></slot></div>
+            <div>
+            <button @click="queryY()">{{ queryConfirm }}</button>
+            <button @click="queryN()">{{ queryCancel }}</button>
+            </div>
+        </div>`,
+        methods: {
+            queryY() {
+                this.$emit('y');
+            },
+            queryN() {
+                this.$emit('n');
+            }
+        }
+    })
+
+    new Vue({
+        el: '#app',
+        data: {
+            isHide: true
+        },
+        methods: {
+            toggleClick: function() {
+                this.isHide = !this.isHide
+            },
+            confirm() {
+                this.isHide = !this.isHide
+                alert('么么哒~~mua~~')
+            },
+            cancel() {
+                this.isHide = !this.isHide
+                alert('let me go')
+            }
+        }
+    })
+</script>
+</html>
